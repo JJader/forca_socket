@@ -7,33 +7,35 @@ import server_address from './server_address';
 const socket = io(server_address);
 
 export default function App() {
-    const [connected, setConnected] = useState("");
+    const [connected, setConnected] = useState(false);
     const [lastMessage, setlastMessage] = useState("");
     const [email, setEmail] = useState("");
+    const [user, setUser] = useState("Jamisson")
 
     useEffect(() => {
         socket.on('connect', () => onConnectionStateUpdate());
         socket.on('disconnect', () => onConnectionStateUpdate());
         socket.on('chat message', (content) => onMessage(content));
-    }, [])
+    }, [connected])
 
     const onConnectionStateUpdate = () => {
         setConnected(socket.connected);
+        socket.emit('joinServer', user);
     };
 
     const onMessage = (content) => {
         setlastMessage(content);
     };
 
-    const onPress = () =>{
-        console.log("cliquei");
-        socket.emit('chat message',email);
+    const onPress = () => {
+        socket.emit('chat message', user, email);
+        setEmail('');
     }
 
     return (
         <View style={styles.container}>
             <Text>State: {connected ? 'Connected' : 'Disconnected'}</Text>
-            <Text>Last message: {lastMessage}</Text>
+            <Text>Last message: {lastMessage.text}</Text>
             <TextInput
                 placeholderTextColor={'gray'}
                 placeholder="Email"
@@ -45,8 +47,8 @@ export default function App() {
                 onPress={() => onPress()}
                 style={styles.button}
             >
-                <Text style={{backgroundColor:'black'}}>
-                    clica em mim 
+                <Text style={{ backgroundColor: 'black' }}>
+                    clica em mim
                 </Text>
             </TouchableOpacity>
         </View>
