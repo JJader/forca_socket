@@ -19,36 +19,46 @@ io.on('connection', (socket) => {
     //     const user = userJoin(socket.id ,userName, room);
     //     socket.join(user.room);
 
-    //     socket.on('chat message', (msg) => {
-    //         io.emit('chat message', msg);
+    //     socket.on('send_message', (msg) => {
+    //         io.emit('send_message', msg);
     //         console.log('message: ' + msg);
     //     });
 
-    //     socket.emit('chat message', 'Welcome !!');
+    //     socket.emit('send_message', 'Welcome !!');
     // })
 
-    socket.on('joinServer', (username) => {
+    socket.on('join_room', (username, room) => {
         userJoin(
             socket.id,
             username,
-            ''
+            room
         );
 
-        console.log(username + ' connected');
+        socket.join(room);
+        socket.emit('receive_message', formatMessage('', 'Bem vindo !!'));
+        socket.to(room).emit('receive_message',formatMessage('', username + ' entrou no jogo'));
 
-        socket.emit('chat message', formatMessage('', 'Bem vindo !!'));
-        socket.broadcast.emit('chat message', formatMessage('', username + ' entrou no chat'));
+        console.log(username + ' connected');
     });
 
-    socket.on('chat message', (user, msg) => {
-        io.emit('chat message', formatMessage(user, msg));
+    socket.on('send_message', (room, user, msg) => {
+        socket.to(room).emit('receive_message', formatMessage(user, msg));
         console.log(user + ' : ' + msg);
     });
 
+    // socket.on('alert', (user, msg) => {
+    //     io.emit('send_message', formatMessage(user, msg));
+    //     console.log(user + ' : ' + msg);
+    // });
+
     socket.on('disconnect', () => {
         var user = removeCurrentUser(socket.id)
+        socket.to(user.room).emit(
+            'receive_message',
+            formatMessage('', user.userName + ' saiu do chat')
+        );
+
         console.log(user.userName + ' disconnected');
-        socket.broadcast.emit('chat message', formatMessage('', user.userName + ' saiu do chat'));
     });
 });
 
