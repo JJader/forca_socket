@@ -12,9 +12,16 @@ function getCurrentUser(id) {
 
 function removeCurrentUser(id) {
     const index = users.findIndex(u => u.id === id);
-    
+
     if (index >= 0) {
         return users.splice(index, 1)[0];
+    }
+    else {
+        return {
+            id: '',
+            userName: 'anônimo',
+            room: '',
+        }
     }
 
 }
