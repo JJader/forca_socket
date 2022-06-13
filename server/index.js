@@ -15,18 +15,6 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-    // socket.on('joinRoom', ({ userName, room }) => {
-    //     const user = userJoin(socket.id ,userName, room);
-    //     socket.join(user.room);
-
-    //     socket.on('send_message', (msg) => {
-    //         io.emit('send_message', msg);
-    //         console.log('message: ' + msg);
-    //     });
-
-    //     socket.emit('send_message', 'Welcome !!');
-    // })
-
     socket.on('join_room', (username, room) => {
         userJoin(
             socket.id,
@@ -46,10 +34,10 @@ io.on('connection', (socket) => {
         console.log(user + ' : ' + msg);
     });
 
-    // socket.on('alert', (user, msg) => {
-    //     io.emit('send_message', formatMessage(user, msg));
-    //     console.log(user + ' : ' + msg);
-    // });
+    socket.on('alert', (user, msg) => {
+        io.emit('receive_message', formatMessage(user, msg));
+        console.log(user + ' : ' + msg);
+    });
 
     socket.on('disconnect', () => {
         var user = removeCurrentUser(socket.id)
