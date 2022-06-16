@@ -5,12 +5,23 @@ const Stack = createStackNavigator();
 
 import { HomeScreen, LoginScreen } from './index'
 
+import defaultStyle from '../style/defaultStyle'
+
 export default function MyStack() {
     return (
         <NavigationContainer>
             <Stack.Navigator>
+                <Stack.Screen
+                    name="Login"
+                    component={LoginScreen}
+                    options={{
+                        headerShown: false,
+                        cardStyle: {
+                            ...defaultStyle.background
+                        }
+                    }}
+                />
                 <Stack.Screen name="Home" component={HomeScreen} />
-                <Stack.Screen name="Login" component={LoginScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );
