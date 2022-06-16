@@ -21,7 +21,16 @@ export default function MyStack() {
                         }
                     }}
                 />
-                <Stack.Screen name="Home" component={HomeScreen} />
+                <Stack.Screen
+                    name="Home"
+                    component={HomeScreen}
+                    options={{
+                        headerShown: false,
+                        cardStyle: {
+                            ...defaultStyle.background
+                        }
+                    }}
+                />
             </Stack.Navigator>
         </NavigationContainer>
     );

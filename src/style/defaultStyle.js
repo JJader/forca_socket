@@ -28,6 +28,10 @@ export default StyleSheet.create({
     color: 'white'
   },
 
+  text: {
+    color: 'white'
+  },
+
   input: {
     backgroundColor:darkBlue,
     color:'white',

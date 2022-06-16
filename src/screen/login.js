@@ -19,7 +19,7 @@ const socket = io(server_address);
 export default function Login({ navigation }) {
 
     const [name, setName] = useState("");
-    const [room, setRoom] = useState(0);
+    const [room, setRoom] = useState('');
     const [connected, setConnected] = useState(false);
 
     useEffect(() => {
