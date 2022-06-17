@@ -23,9 +23,7 @@ function removeCurrentUser(id) {
             room: '',
         }
     }
-
 }
-
 
 module.exports = {
     userJoin,

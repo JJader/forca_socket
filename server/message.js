@@ -5,4 +5,11 @@ function formatMessage(username, text){
     }
 }
 
-module.exports = formatMessage;
+function is_repeated_letter(letra='', palavra=""){
+    return palavra.indexOf(letra) != -1
+}
+
+module.exports = {
+    formatMessage,
+    is_repeated_letter,
+}

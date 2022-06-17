@@ -6,7 +6,7 @@ const socket = require("socket.io");
 const io = socket(server);
 
 const { userJoin, getCurrentUser, removeCurrentUser } = require('./user');
-const formatMessage = require('./message');
+const message = require('./message');
 
 const PORT = 3000 || process.env.PORT;
 
@@ -23,19 +23,20 @@ io.on('connection', (socket) => {
         );
 
         socket.join(room);
-        socket.emit('receive_message', formatMessage('', 'Bem vindo !!'));
-        socket.to(room).emit('receive_message',formatMessage('', username + ' entrou no jogo'));
+        socket.emit('receive_message', message.formatMessage('', 'Bem vindo !!'));
+        socket.to(room).emit('receive_message', message.formatMessage('', username + ' entrou no jogo'));
 
         console.log(username + ' connected');
     });
 
     socket.on('send_message', (room, user, msg) => {
-        socket.to(room).emit('receive_message', formatMessage(user, msg));
+        socket.to(room).emit('receive_message', message.formatMessage(user, msg));
+        socket.emit('receive_message', message.formatMessage(user, msg));
         console.log(user + ' : ' + msg);
     });
 
     socket.on('alert', (user, msg) => {
-        io.emit('receive_message', formatMessage(user, msg));
+        io.emit('receive_message', message.formatMessage(user, msg));
         console.log(user + ' : ' + msg);
     });
 
@@ -43,7 +44,7 @@ io.on('connection', (socket) => {
         var user = removeCurrentUser(socket.id)
         socket.to(user.room).emit(
             'receive_message',
-            formatMessage('', user.userName + ' saiu do chat')
+            message.formatMessage('', user.userName + ' saiu do chat')
         );
 
         console.log(user.userName + ' disconnected');

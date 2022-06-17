@@ -32,12 +32,12 @@ export default function Login({ navigation }) {
     };
 
     const joinRoom = () => {
-        console.log(name)
         if (name != "" && room != 0) {
+            socket.connect();
             socket.emit('join_room', name, room);
             navigation.navigate(
                 'Home',
-                { name:name, room:room }
+                { name:name, room:room, socket:socket }
             )
         }
     };
@@ -45,12 +45,8 @@ export default function Login({ navigation }) {
     return (
         <View style={defaultStyle.container}>
             <StatusBar backgroundColor="black" />
-            <Image
-                style={{ height: 300, width: '100%', }}
-                resizeMode='contain'
-                source={IMG}
-            />
-            <Text style={defaultStyle.title}>Hangman</Text>
+            
+            <Text style={defaultStyle.title}>Redes</Text>
 
             <TextInput
                 style={defaultStyle.input}
@@ -77,6 +73,12 @@ export default function Login({ navigation }) {
                     play
                 </Text>
             </TouchableOpacity>
+
+            <Image
+                style={{ height: 600, width: '100%', }}
+                resizeMode='cover'
+                source={IMG}
+            />
         </View>
     )
 }

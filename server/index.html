@@ -75,13 +75,14 @@
         var form = document.getElementById('form');
         var input = document.getElementById('input');
         const user = 'adm'
+        const room = '1'
 
-        socket.emit('join_room', user, 0);
+        socket.emit('join_room', user, room);
 
         form.addEventListener('submit', function (e) {
             e.preventDefault();
             if (input.value) {
-                socket.emit('send_message', 0, user, input.value);
+                socket.emit('send_message', room, user, input.value);
                 input.value = '';
             }
         });
