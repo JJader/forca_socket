@@ -8,7 +8,7 @@ const io = socket(server);
 const { userJoin, getCurrentUser, removeCurrentUser } = require('./user');
 const message = require('./message');
 
-const PORT = 3000 || process.env.PORT;
+const PORT = 1998 || process.env.PORT;
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');

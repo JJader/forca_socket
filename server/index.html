@@ -74,8 +74,9 @@
         var messages = document.getElementById('messages');
         var form = document.getElementById('form');
         var input = document.getElementById('input');
-        const user = 'adm'
-        const room = '1'
+        // http://localhost:3000/?jamisson?1
+        const user = document.URL.split("?")[1] 
+        const room = document.URL.split("?")[2]
 
         socket.emit('join_room', user, room);
 
